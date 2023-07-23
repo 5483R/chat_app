@@ -7,8 +7,8 @@ export class CreateRoomDto{
 export class CreateMembershipDto{
    roomId : number;
    userId : string;
-   IsBanned :  Boolean;
-   IsMuted : Boolean;
+   IsBanned :  boolean;
+   IsMuted : boolean;
 }
 
 export class CreateRoomwithMemebrs{

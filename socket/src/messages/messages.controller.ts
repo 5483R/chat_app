@@ -5,12 +5,12 @@ import { MessagesService } from "./messages.service";
 
 
  
-@Controller('createroom')
+@Controller('room')
 export class RoomsController {
     constructor(private readonly messagesservice: MessagesService) {}
 
 
-    @Post()
+    @Post('/create')
     async   createRoom(@Body() createroomwithmembers : CreateRoomwithMemebrs){       
         const {room, member} = createroomwithmembers;
         const createdroom = await this.messagesservice.createRoom(room);
@@ -21,4 +21,12 @@ export class RoomsController {
             member : createdmembership,
         };
     }
+
+
+    //get messages base on room id 
+    //delete group  base on room id {1-delete membrships+ 2-delete messages + 3-delete room}
+    //kick from group
+    //add membership
+    //quite group
+    //send message(store on database)
 }

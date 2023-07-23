@@ -5,7 +5,6 @@ import { Message } from './entities/message.entity';
 import { PrismaClient } from '@prisma/client';
 import { CreateMembershipDto, CreateRoomDto } from './dto/room.dto';
 
-
 @Injectable()
 export class MessagesService {
   constructor(private readonly prisma: PrismaClient) {}
@@ -49,17 +48,32 @@ export class MessagesService {
     return room;
   }
   async createMemberShip(createmembershipdto: CreateMembershipDto) {
-    const {roomId, userId, IsBanned, IsMuted } = createmembershipdto;
+    const {roomId, userId} = createmembershipdto;
 
     const membership = await this.prisma.membership.create({
       data: {
-        RoomId: roomId,
-        UserId: userId,
-        isBanned: IsBanned,
-        isMuted: IsMuted,
+        room : {connect : {RoomId : roomId}},
+        member: {connect: {UserId: userId}},
+        isBanned: false,
+        isMuted: false,
       },
     });
   
     return membership;
   }
+
+
+  async storeMessage(createMessage : createMessageDto){
+    const {RoomId , UserId, Content} = createMessage;
+
+
+    const texts = await this.prisma.message.create({
+      data:{
+        room : {connect: {RoomId : RoomId}},
+        user : {connect: { UserId : UserId}},
+        Content : Content,
+      },
+  });
+
+  return texts
 }
